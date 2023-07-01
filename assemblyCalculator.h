@@ -21,17 +21,17 @@ class AssemblyCalculator{
         AssemblyCalculator(const AssemblyCalculator& oldCalc); //copy
     
         // getters + setters
-        void setFirstOperand(unsigned int newOperand1);
-        void setSecondOperand(unsigned int newOperand2);
+        void setFirstOperand(const unsigned int newOperand1);
+        void setSecondOperand(const unsigned int newOperand2);
         unsigned int getFirstOperand() const;
         unsigned int getSecondOperand() const;
 
-        void setCurrentOperation(string newOper);
+        void setCurrentOperation(const string newOper);
         string getCurrentOperation() const;
 
-        void setZ(bool newZ);
+        void setZ(const bool newZ);
         bool getZ() const;
-        void setN(bool newN);
+        void setN(const bool newN);
         bool getN() const;
 
         // calculating behaviors . . . more to come
@@ -39,6 +39,8 @@ class AssemblyCalculator{
 
         // void changeFlagsAcc();
         unsigned int calculateSum();
+        signed int performASR();
+        unsigned int performLSR();
         bool isThereOverFlow();
 
 };

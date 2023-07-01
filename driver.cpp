@@ -22,23 +22,21 @@ int main(int argc, char* argv[]){ // include here that we need to run txt with f
 }
 
 void runOperations(int numCals, AssemblyCalculator* calcArr){
-    bool wasThereOverflow; string overflowYesNo;
+    bool wasThereOverflow; string operation;
     unsigned int result;
 
     for (int i = 0; i < numCals; i++){
-        // wasThereOverflow = calcArr[i].isThereOverFlow();
+        operation = calcArr[i].getCurrentOperation();
 
-        // if (wasThereOverflow == true){
-        //     overflowYesNo = "YES";
-        // }
-        // else{
-        //     overflowYesNo = "NO";
-        // }
+        // formatted output
+        if(operation == "ASR" || operation == "ASRS" || operation == "LSR" || operation == "LSRS"){
+            cout << operation << "   " << hex << showbase << uppercase << calcArr[i].getFirstOperand() << "  " << noshowbase << calcArr[i].getSecondOperand() << ": "<< showbase << calcArr[i].performCurrentOperation() << endl;
+        }
+        else{
+            cout << operation << "   " << hex << showbase << uppercase << calcArr[i].getFirstOperand() << "  " << calcArr[i].getSecondOperand() << ": " << calcArr[i].performCurrentOperation() << endl;
+        }
 
-        cout << calcArr[i].getCurrentOperation() << "   " << hex << showbase << uppercase << calcArr[i].getFirstOperand() << "  " << calcArr[i].getSecondOperand() << ": " << calcArr[i].performCurrentOperation() << endl;
-        // cout << "Overflow:  " << overflowYesNo << endl;
-
-        if ((calcArr[i].getCurrentOperation()).back() == 'S'){ // if the instruction ends in an S, set the flags
+        if (operation.back() == 'S'){ // if the instruction ends in an S, set the flags
             //set the new value of the flags
             result = calcArr[i].performCurrentOperation();
 
@@ -47,26 +45,23 @@ void runOperations(int numCals, AssemblyCalculator* calcArr){
                 result = result/16;
             }
             // cout << result << endl;
-
-            unsigned int test = 0;
             
             if(result > 7){
-                // cout << "this result is negative!" << endl;
                 calcArr[i].setN(1);
             }
-            else if(calcArr[i].performCurrentOperation() > test){
+            else if(result == 0){
                 calcArr[i].setZ(1);
             }
             
         }
 
-        cout << noshowbase << "N: " << calcArr[i].getN() << "   " << "Z: " << calcArr->getZ() << endl;
+        cout << noshowbase << "N: " << calcArr[i].getN() << "   " << "Z: " << calcArr[i].getZ() << endl;
     }
 }
 
 int readOperationOperands(AssemblyCalculator* calcArr, string fileName){
     int numOperationsPerform = 0; //will increment as we read in from file - equal to the number of lines/instructions
-    string operationToPerform; //these values are for the parameterized constructor
+    string operation; //these values are for the parameterized constructor
     unsigned int oper1, oper2; //these values are for the parameterized constructor
 
     ifstream file(fileName);
@@ -76,10 +71,10 @@ int readOperationOperands(AssemblyCalculator* calcArr, string fileName){
         return numOperationsPerform;
     }
 
-    while(file >> operationToPerform >> hex >> oper1 >> hex >> oper2){ // read in the values from txt, make calc objects and store back into array
+    while(file >> operation >> hex >> oper1 >> hex >> oper2){ // read in the values from txt, make calc objects and store back into array
     // temp code here
-        if ((operationToPerform == "ADDS") || (operationToPerform == "ADD")){
-            calcArr[numOperationsPerform] = AssemblyCalculator(operationToPerform, oper1, oper2, 0, 0);
+        if ((operation == "ADDS") || (operation == "ADD") || (operation == "ASR") || (operation == "ASRS") || (operation == "LSR" || operation == "LSRS")){
+            calcArr[numOperationsPerform] = AssemblyCalculator(operation, oper1, oper2, 0, 0);
             numOperationsPerform++;
         }
     }

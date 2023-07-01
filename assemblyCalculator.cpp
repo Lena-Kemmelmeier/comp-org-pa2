@@ -28,11 +28,11 @@ AssemblyCalculator::AssemblyCalculator(const AssemblyCalculator& oldCalc){
 }
 
 // getters + setters
-void AssemblyCalculator::setFirstOperand(unsigned int newOperand1){
+void AssemblyCalculator::setFirstOperand(const unsigned int newOperand1){
     firstOperand = newOperand1;
 }
 
-void AssemblyCalculator::setSecondOperand(unsigned int newOperand2){
+void AssemblyCalculator::setSecondOperand(const unsigned int newOperand2){
     secondOperand = newOperand2;
 }
 
@@ -44,7 +44,7 @@ unsigned int AssemblyCalculator::getSecondOperand() const{
     return secondOperand;
 }
 
-void AssemblyCalculator::setCurrentOperation(string newOper){
+void AssemblyCalculator::setCurrentOperation(const string newOper){
     currentOperation = newOper;
 }
 
@@ -52,7 +52,7 @@ string AssemblyCalculator::getCurrentOperation() const{
     return currentOperation;
 }
 
-void AssemblyCalculator::setZ(bool newZ){
+void AssemblyCalculator::setZ(const bool newZ){
     Z = newZ;
 }
 
@@ -60,7 +60,7 @@ bool AssemblyCalculator::getZ() const{
     return Z;
 }
 
-void AssemblyCalculator::setN(bool newN){
+void AssemblyCalculator::setN(const bool newN){
     N = newN;
 }
 
@@ -72,17 +72,24 @@ bool AssemblyCalculator::getN() const{
 
 // performs the current operation - calls the appropiate instruction
 unsigned int AssemblyCalculator::performCurrentOperation(){
-    unsigned int answer;
+    // unsigned int answer;
+    string operation = getCurrentOperation();
 
-    // make sure Z and N are always set to 0 initally
+    // Z and N are always set to 0 initally
     setN(0);
     setZ(0);
 
-    if((getCurrentOperation() == "ADD") || (getCurrentOperation() == "ADDS")){  
-        return (answer = calculateSum());
+    if(operation == "ADD" || operation == "ADDS"){  
+        return calculateSum();
     }
-    else{ // call other instruction behaviors
-        return answer;
+    else if(operation == "ASR" || operation == "ASRS"){
+        return performASR();
+    }
+    else if(operation == "LSR" || operation == "LSRS"){ // call other instruction behaviors
+        return performLSR();
+    }
+    else{
+        return 12;
     }
 
 
@@ -93,12 +100,21 @@ unsigned int AssemblyCalculator::calculateSum(){
     return (firstOperand + secondOperand);
 }
 
-// // change flags accordingly
-// void AssemblyCalculator::changeFlagsAcc(){
-//     if (currentOperation.back() == 'S'){ //if the instruction ends with an S
+// perform arithmetic shift right
+signed int AssemblyCalculator::performASR(){
+    signed int shiftThis = firstOperand;
+    int numShifts = secondOperand;
+    signed int result = (shiftThis >> numShifts);
 
-//     }
-// }
+    return result;
+}
+
+unsigned int AssemblyCalculator::performLSR(){
+    int numShifts = secondOperand;
+    unsigned int result = (firstOperand >> numShifts);
+
+    return result;
+}
 
 // checking for overflow with calculateSum()
 bool AssemblyCalculator::isThereOverFlow(){
