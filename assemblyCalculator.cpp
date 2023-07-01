@@ -68,72 +68,93 @@ bool AssemblyCalculator::getN() const{
     return N;
 }
 
-// calculating behaviors . . . more to come
+// calculating behaviors
 
-// performs the current operation - calls the appropiate instruction
+// performs the current operation - calls the appropiate behavior
 unsigned int AssemblyCalculator::performCurrentOperation(){
-    // unsigned int answer;
     string operation = getCurrentOperation();
 
-    // // Z and N are always set to 0 initally
-    // setN(0);
-    // setZ(0);
-
-    if(operation == "ADD" || operation == "ADDS"){  
-        return calculateSum();
+    if (operation.back() == 'S'){ // treat operation as being the operation without the S
+        operation = operation.substr(0, operation.size()-1);
     }
-    else if(operation == "ASR" || operation == "ASRS"){
+
+    if(operation == "ADD"){  
+        return performADD();
+    }
+    if(operation == "AND"){
+        return performAND();
+    }
+    if(operation == "ASR"){
         return performASR();
     }
-    else if(operation == "LSR" || operation == "LSRS"){ // call other instruction behaviors
+    if(operation == "LSR"){
         return performLSR();
     }
-    else if(operation == "LSL" || operation == "LSLS"){
+    if(operation == "LSL"){
         return performLSL();
     }
-    else{
-        return 12;
+    if(operation == "NOT"){
+        return performNOT();
     }
-
-
+    if (operation == "ORR"){
+        return performORR();
+    }
+    if (operation == "XOR"){
+        return performXOR();
+    }
+    if (operation == "SUB"){
+        return performSUB();
+    }
+    return 12;
 }
 
-// calculate the sum
-unsigned int AssemblyCalculator::calculateSum(){
-    return (firstOperand + secondOperand);
+unsigned int AssemblyCalculator::performADD(){
+    return firstOperand + secondOperand;
 }
 
-// perform arithmetic shift right
+unsigned int AssemblyCalculator::performAND(){
+    return firstOperand & secondOperand;
+}
+
 signed int AssemblyCalculator::performASR(){
     signed int shiftThis = firstOperand;
     int numShifts = secondOperand;
-    signed int result = (shiftThis >> numShifts);
 
-    return result;
+    return shiftThis >> numShifts;
 }
 
 unsigned int AssemblyCalculator::performLSR(){
     int numShifts = secondOperand;
-    unsigned int result = (firstOperand >> numShifts);
 
-    return result;
+    return firstOperand >> numShifts;
 }
 
 unsigned int AssemblyCalculator::performLSL(){
     int numShifts = secondOperand;
-    unsigned int result = (firstOperand << numShifts);
 
-    return result;
+    return firstOperand << numShifts;
 }
 
 unsigned int AssemblyCalculator::performNOT(){
-    
+    return ~firstOperand;
 }
 
-// checking for overflow with calculateSum()
+unsigned int AssemblyCalculator::performORR(){
+    return firstOperand | secondOperand;
+}
+
+unsigned int AssemblyCalculator::performSUB(){
+    return firstOperand - secondOperand;
+}
+
+unsigned int AssemblyCalculator::performXOR(){
+    return firstOperand ^ secondOperand;
+}
+
+// checking for overflow with performADD()
 bool AssemblyCalculator::isThereOverFlow(){
     bool hasOverflowOccured = false;
-    unsigned int sum = calculateSum();
+    unsigned int sum = performADD();
 
     // if the sum result is less than either of the two operands (unsigned), then overflow has occured
     if (sum < firstOperand || sum < secondOperand){

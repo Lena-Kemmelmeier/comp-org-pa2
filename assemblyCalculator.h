@@ -34,17 +34,20 @@ class AssemblyCalculator{
         void setN(const bool newN);
         bool getN() const;
 
-        // calculating behaviors . . . more to come
-        unsigned int performCurrentOperation(); // performs the current operation, ex: calls getSum() and returns answer
+        // calculating behaviors
+        unsigned int performCurrentOperation(); // performs the current operation, ex: calls performLSR()
 
-        // void changeFlagsAcc();
-        unsigned int calculateSum();
+        unsigned int performADD();
+        unsigned int performAND();
         signed int performASR();
         unsigned int performLSR();
         unsigned int performLSL();
         unsigned int performNOT();
-        bool isThereOverFlow();
+        unsigned int performORR();
+        unsigned int performSUB();
+        unsigned int performXOR();
 
+        bool isThereOverFlow();
 };
 
 #endif
