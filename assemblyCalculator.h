@@ -41,6 +41,8 @@ class AssemblyCalculator{
         unsigned int calculateSum();
         signed int performASR();
         unsigned int performLSR();
+        unsigned int performLSL();
+        unsigned int performNOT();
         bool isThereOverFlow();
 
 };

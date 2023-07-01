@@ -2,6 +2,7 @@
 // Purpose: CS 219 PA1 (Summer '23) - hexadecimal addition calculator
 
 #include <fstream>
+#include <sstream>
 #include "assemblyCalculator.h"
 
 int readOperationOperands(AssemblyCalculator* calcArr, string fileName); // reads in data into calcArr, returns how many lines (instructions) in txt there were
@@ -14,11 +15,10 @@ int main(int argc, char* argv[]){ // include here that we need to run txt with f
         AssemblyCalculator calculationsArr[maxAdditions];
         int numOperations = readOperationOperands(calculationsArr, argv[1]); //numOperations is our 'size' on our array
         runOperations(numOperations, calculationsArr);
+
+        return 0;
     }
-    else{
-        return 1;
-    }
-    return 0;
+    return 1;
 }
 
 void runOperations(int numCals, AssemblyCalculator* calcArr){
@@ -29,7 +29,7 @@ void runOperations(int numCals, AssemblyCalculator* calcArr){
         operation = calcArr[i].getCurrentOperation();
 
         // formatted output
-        if(operation == "ASR" || operation == "ASRS" || operation == "LSR" || operation == "LSRS"){
+        if(operation == "ASR" || operation == "ASRS" || operation == "LSR" || operation == "LSRS" || operation == "LSL" || operation == "LSLS"){
             cout << operation << "   " << hex << showbase << uppercase << calcArr[i].getFirstOperand() << "  " << noshowbase << calcArr[i].getSecondOperand() << ": "<< showbase << calcArr[i].performCurrentOperation() << endl;
         }
         else{
@@ -71,13 +71,18 @@ int readOperationOperands(AssemblyCalculator* calcArr, string fileName){
         return numOperationsPerform;
     }
 
-    while(file >> operation >> hex >> oper1 >> hex >> oper2){ // read in the values from txt, make calc objects and store back into array
-    // temp code here
-        if ((operation == "ADDS") || (operation == "ADD") || (operation == "ASR") || (operation == "ASRS") || (operation == "LSR" || operation == "LSRS")){
-            calcArr[numOperationsPerform] = AssemblyCalculator(operation, oper1, oper2, 0, 0);
-            numOperationsPerform++;
+    while((file >> operation)){ // read in the values from txt, make calc objects and store back into array
+        if (operation == "NOT" || operation == "NOTS"){
+            file >> hex >> oper1;
+            calcArr[numOperationsPerform] = AssemblyCalculator(operation, oper1, -1, 0, 0);
         }
+        else{
+            file >> hex >> oper1 >> hex >> oper2;
+            calcArr[numOperationsPerform] = AssemblyCalculator(operation, oper1, oper2, 0, 0);
+        } 
+        numOperationsPerform++;
     }
+
     file.close();
     return numOperationsPerform;
 }

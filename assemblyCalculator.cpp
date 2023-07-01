@@ -75,9 +75,9 @@ unsigned int AssemblyCalculator::performCurrentOperation(){
     // unsigned int answer;
     string operation = getCurrentOperation();
 
-    // Z and N are always set to 0 initally
-    setN(0);
-    setZ(0);
+    // // Z and N are always set to 0 initally
+    // setN(0);
+    // setZ(0);
 
     if(operation == "ADD" || operation == "ADDS"){  
         return calculateSum();
@@ -87,6 +87,9 @@ unsigned int AssemblyCalculator::performCurrentOperation(){
     }
     else if(operation == "LSR" || operation == "LSRS"){ // call other instruction behaviors
         return performLSR();
+    }
+    else if(operation == "LSL" || operation == "LSLS"){
+        return performLSL();
     }
     else{
         return 12;
@@ -114,6 +117,17 @@ unsigned int AssemblyCalculator::performLSR(){
     unsigned int result = (firstOperand >> numShifts);
 
     return result;
+}
+
+unsigned int AssemblyCalculator::performLSL(){
+    int numShifts = secondOperand;
+    unsigned int result = (firstOperand << numShifts);
+
+    return result;
+}
+
+unsigned int AssemblyCalculator::performNOT(){
+    
 }
 
 // checking for overflow with calculateSum()
