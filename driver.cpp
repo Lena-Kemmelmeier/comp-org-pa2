@@ -2,18 +2,17 @@
 // Purpose: CS 219 PA1 (Summer '23) - assembly simulator
 
 #include <fstream>
-#include <sstream>
 #include "assemblyCalculator.h"
 
-int readOperationOperands(AssemblyCalculator* calcArr, string fileName); // reads in data into calcArr, returns how many instructions total
+int readInstructions(AssemblyCalculator* calcArr, string fileName); // reads in data into calcArr, returns how many instructions total
 void runOperations(int numCals, AssemblyCalculator* calcArr); //runs the operations for all the calc objects in calcArr, displays outputs to user
 
-int main(int argc, char* argv[]){ // requires a file arguments
+int main(int argc, char* argv[]){ // requires a file argument
 
     if (argc > 1){ //user must specifiy a file (here, Programming-Project-2.txt)
         int maxAdditions = 40; // this is just the max num of operations (arbitrarily large)
         AssemblyCalculator calculationsArr[maxAdditions];
-        int numOperations = readOperationOperands(calculationsArr, argv[1]); //numOperations is the 'size' of our array
+        int numOperations = readInstructions(calculationsArr, argv[1]); //numOperations is the 'size' of our array
         runOperations(numOperations, calculationsArr);
 
         return 0;
@@ -64,7 +63,7 @@ void runOperations(int numCals, AssemblyCalculator* calcArr){
     }
 }
 
-int readOperationOperands(AssemblyCalculator* calcArr, string fileName){
+int readInstructions(AssemblyCalculator* calcArr, string fileName){
     int numOperationsPerform = 0; //will increment as we read in from file - equal to the number of lines/instructions
     string operation; //these values are for the parameterized constructor
     unsigned int oper1, oper2; //these values are for the parameterized constructor
