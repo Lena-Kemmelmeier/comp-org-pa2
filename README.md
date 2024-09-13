@@ -1,6 +1,4 @@
-# cs219-pa2
-
-# CS 219 Programming Assignment 2
+# Computer Organization Assignment 2
 
 Required Files: driver.cpp, assemblyCalculator.cpp, assemblyCalculator.h, Programming-Project-2.txt, makefile (for the assemblySim executable)
 
@@ -12,8 +10,6 @@ The program works by reading the data from Programming-Project-2.txt with ifstre
 We run and display the results of each operation with the runOperations() function, which displays instruction names, operand values, and results by iterating through calculationsArr. runOperations() calls the performCurrentOperation(), which runs the appropiate instruction (currentOpertation) on each assemblyCalculator object and returns the result.
 
 Unlike part 1, we are dealing with multiple types of instructions (not just ADD). To make the bitwise operations a bit easier for me to handle, I typecasted the hex values as unsigned integers and just converted them back to hex for when I had to display the results back to the user. The exception to this is the ASR instruction, which handles the operands as being signed.
-
-If there are any issues with my running my program please let me know! My github link is https://github.com/Lena-Kemmelmeier/cs219-pa2 if for any reason that is easier to access.
 
 
 
